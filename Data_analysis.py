@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[375]:
-
 
 import numpy as np
 from astropy.io import fits
@@ -10,23 +5,17 @@ from astropy.io import fits
 ##conversion factors and constants in cgs
 k=1.380658*1e-16
 m_p=1.672623*1e-24
-
 X_sol=0.71
 Y_sol=0.265
 Z_sol=0.025
-
 gamma=4/3
-
 mu_sol=1/(2*0.71+3/4*0.265+0.5*0.0125)
-
-
-
 kpc=3.086*1e21
 KeV=1.60218*1e-9
 pi=3.1415926
 
 
-# In[376]:
+
 
 
 ###Radius with ellipses (in arcsec)
@@ -35,7 +24,7 @@ r_cav1_el=np.array([2.819, 2.435])*2*5
 r_cav2_el=np.array([2.807, 2.166])*2*5
 
 
-# In[407]:
+
 
 
 ###diameter with ruler measurament (in arcsec)
@@ -48,7 +37,7 @@ R_cav1=np.array([5.11, 4.98, 5.17, 4.87, 4.41])*5#kpc
 R_cav2=np.array([4.61, 4.75, 4.91, 4.87,4.39])*5#kpc
 
 
-# In[409]:
+
 
 
 #Mean radius of the cavity (assumed circular)
@@ -79,7 +68,7 @@ V_2_err=4*pi*(r_2*kpc)**2*r_2_err*kpc
 print(r_2)
 
 
-# In[410]:
+
 
 
 ##We use annulus 4"-6"
@@ -92,17 +81,15 @@ n=85.35*1e-3 #cm^-3
 n_err=np.array([7.03, 9.46])*1e-3 #cm^-3
 
 
-
 Z=0.51 #Z_sol
 Z_err=np.array([0.98, -0.51])  #Z_sol
 Z=Z*Z_sol 
 Z_max=(Z+Z_err[0])*Z_sol
 Z_min=(Z+Z_err[1])*Z_sol
-
 Z=np.array([Z, Z_max, Z_min])
 
 
-# In[411]:
+
 
 
 #We normalize the abunace of H and He to the detected metallicity
@@ -118,24 +105,16 @@ mu_mean=mu[0]
 mu_err=np.array(mu[1]-mu_mean, mu[2]-mu_mean)
 
 
-# In[412]:
-
-
-n_err
-
-
-# In[413]:
 
 
 #extrimate of pressure from x-rays observables
 p_x=1.9*n*kT*KeV
-
 p_x_err=np.mean(1.9*n*kT*KeV*np.sqrt((n_err/n)**2+(T_err/T)**2))
-print(p_x_err/p_x)
 
 
-# In[414]:
 
+
+#Calculate the crossing time of the cavity
 
 t_1=(R_1*kpc/(np.sqrt(gamma*kT*KeV/(mu_mean*m_p))))/(pi*1e7)
 t_2=(R_2*kpc/(np.sqrt(gamma*kT*KeV/(mu_mean*m_p))))/(pi*1e7)
@@ -143,14 +122,12 @@ t_2=(R_2*kpc/(np.sqrt(gamma*kT*KeV/(mu_mean*m_p))))/(pi*1e7)
 c=(gamma*KeV)/(mu_mean*m_p)
 
 t_1_err=np.mean(np.sqrt((1/np.sqrt(c*kT)*R_1_err*kpc)**2+(c/(2*np.power(c*kT, 3/2))*T_err*KeV)**2)/(pi*1e7))
-
 t_2_err=np.mean(np.sqrt((1/np.sqrt(c*kT)*R_2_err*kpc)**2+(c/(2*np.power(c*kT, 3/2))*T_err*KeV)**2)/(pi*1e7))
 
 print("Cavity 1 has a crossing time of "+f"{t_1:.2e}"+ "±" + f"{t_1_err:.2e}"+" yr")
 print("Cavity 2 has a crossing time of "+f"{t_2:.2e}"+ "±" + f"{t_2_err:.2e}"+" yr")
 
 
-# In[420]:
 
 
 ##Energy of cavities:
@@ -166,7 +143,7 @@ print("Cavity 1 has E=" +f"({E_1:.2e}" +" ± "+ f"{E_1_err:.2e})"+" erg")
 print("Cavity 2 has E=" +f"({E_2:.2e}"+ " ± "+f"{E_2_err:.2e})"+" erg")
 
 
-# In[432]:
+
 
 
 ###Power of cavities
@@ -182,19 +159,7 @@ print("Cavity 1 has P=" + f"{P1:.2e} "+ "±" +f"{P1_err:.2e})"+" erg/s")
 print("Cavity 2 has P=" + f"{P2:.2e} "+ "±" +f"{P2_err:.2e})"+" erg/s")
 
 
-# In[ ]:
 
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
 
 
 
